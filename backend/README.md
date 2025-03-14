@@ -32,18 +32,20 @@ Register a new user in the system.
 
 **Success Response**:
 - **Code**: 201 Created
-- **Content**:
+- **Content Example**:
 ```json
 {
   "message": "User registered successfully",
-  "token": "jwt_token_here",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjA1NjRhM2JiZjgxMjM0NTY3ODkwMTIiLCJpYXQiOjE3MTU2NzU4NzV9.aBcDeFgHiJkLmNoPqRsTuVwXyZ-1234567890",
   "user": {
-    "_id": "user_id",
+    "_id": "660564a3bbf8123456789012",
     "fullname": {
       "firstname": "John",
       "lastname": "Doe"
     },
-    "email": "john.doe@example.com"
+    "email": "john.doe@example.com",
+    "socketId": null,
+    "__v": 0
   }
 }
 ```
@@ -52,13 +54,22 @@ Register a new user in the system.
 
 - **Code**: 400 Bad Request
   - **Condition**: If validation fails (e.g., firstname too short, invalid email)
-  - **Content**:
+  - **Content Example**:
   ```json
   {
     "errors": [
       {
-        "param": "firstname",
+        "type": "field",
+        "value": "jo",
         "msg": "First name must be at least 3 characters long",
+        "path": "firstname",
+        "location": "body"
+      },
+      {
+        "type": "field",
+        "value": "test",
+        "msg": "Email must be a valid email",
+        "path": "email",
         "location": "body"
       }
     ]
@@ -67,10 +78,10 @@ Register a new user in the system.
 
 - **Code**: 500 Internal Server Error
   - **Condition**: If there's a server error during registration
-  - **Content**:
+  - **Content Example**:
   ```json
   {
-    "message": "Error message details"
+    "message": "E11000 duplicate key error collection: uber.users index: email_1 dup key: { email: \"john.doe@example.com\" }"
   }
   ```
 
